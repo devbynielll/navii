@@ -1,58 +1,60 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, CheckCircle2, AlertTriangle, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CheckCircle2, AlertTriangle, X } from "lucide-react";
 import { useNavii } from "./NaviiContext";
+
+type StepState = "pending" | "active" | "done";
+
+interface Step {
+  id: number;
+  text: string;
+  state: StepState;
+}
 
 export default function TaskSimulation() {
   const { activeTask, setActiveTask, taskState, setTaskState } = useNavii();
-  const [steps, setSteps] = useState<{ id: number; text: string; state: "pending" | "active" | "done" | "error" }[]>([]);
+  const [steps, setSteps] = useState<Step[]>([]);
 
   useEffect(() => {
-    if (activeTask) {
-      setSteps([
-        { id: 1, text: "Listening...", state: "active" }
-      ]);
-      setTaskState("Listening");
-      
-      let stepCount = 1;
-      const sequence = [
-        { state: "Thinking", text: "Understanding command..." },
-        { state: "Acting", text: `Opening application...` },
-        { state: "Acting", text: `Searching...` },
-        { state: "Waiting for Approval", text: `Approval needed to execute.` },
-      ];
+    if (!activeTask) return;
 
-      const runSequence = async () => {
-        for (const item of sequence) {
-          await new Promise(r => setTimeout(r, 1200));
-          
-          if (item.state === "Waiting for Approval") {
-            setTaskState("Waiting for Approval");
-            setSteps(prev => [
-              ...prev.map(p => ({ ...p, state: "done" as const })),
-              { id: ++stepCount, text: item.text, state: "active" as const }
-            ]);
-            return; // pause here
-          }
+    setSteps([{ id: 1, text: "Listening...", state: "active" }]);
+    setTaskState("Listening");
 
-          setTaskState(item.state as any);
-          setSteps(prev => [
-            ...prev.map(p => ({ ...p, state: "done" as const })),
-            { id: ++stepCount, text: item.text, state: "active" as const }
-          ]);
-        }
-      };
+    let stepCount = 1;
+    const sequence = [
+      { state: "Thinking", text: "Understanding command..." },
+      { state: "Acting", text: "Opening application..." },
+      { state: "Acting", text: "Searching..." },
+      { state: "Waiting for Approval", text: "Sensitive action detected. Proceed?" },
+    ];
 
-      runSequence();
-    }
+    let cancelled = false;
+
+    const runSequence = async () => {
+      for (const item of sequence) {
+        await new Promise((r) => setTimeout(r, 1200));
+        if (cancelled) return;
+
+        setSteps((prev) => [
+          ...prev.map((p) => ({ ...p, state: "done" as StepState })),
+          { id: ++stepCount, text: item.text, state: "active" as StepState },
+        ]);
+        setTaskState(item.state as any);
+
+        if (item.state === "Waiting for Approval") return;
+      }
+    };
+
+    runSequence();
+    return () => { cancelled = true; };
   }, [activeTask, setTaskState]);
 
   const handleApprove = () => {
     setTaskState("Done");
-    setSteps(prev => [
-      ...prev.map(p => ({ ...p, state: "done" as const })),
-      { id: Date.now(), text: "Done!", state: "done" as const }
+    setSteps((prev) => [
+      ...prev.map((p) => ({ ...p, state: "done" as StepState })),
+      { id: Date.now(), text: "Done!", state: "done" as StepState },
     ]);
     setTimeout(() => {
       setActiveTask(null);
@@ -72,61 +74,138 @@ export default function TaskSimulation() {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, y: 50, x: 20 }}
-        animate={{ opacity: 1, y: 0, x: 0 }}
-        exit={{ opacity: 0, y: 50 }}
-        className="fixed bottom-6 right-6 z-50 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden"
+        initial={{ opacity: 0, x: 24, y: 8 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        exit={{ opacity: 0, x: 24 }}
+        transition={{ type: "spring", stiffness: 400, damping: 32 }}
+        className="fixed bottom-6 right-6 z-50 w-72 overflow-hidden"
+        style={{
+          borderRadius: 16,
+          background: "rgba(12,12,18,0.92)",
+          backdropFilter: "blur(20px) saturate(180%)",
+          border: "1px solid rgba(255,255,255,0.07)",
+          boxShadow: "0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(59,130,246,0.15)",
+        }}
       >
-        <div className="bg-gray-50 px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+        {/* Header */}
+        <div
+          className="flex items-center justify-between px-4 py-3"
+          style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        >
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-            <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Navii Activity</span>
+            <svg width="10" height="13" viewBox="0 0 10 13" fill="none" style={{ filter: "drop-shadow(0 0 3px rgba(59,130,246,0.9))" }}>
+              <defs>
+                <linearGradient id="taskGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#7FC3FF" />
+                  <stop offset="100%" stopColor="#2563EB" />
+                </linearGradient>
+              </defs>
+              <polygon points="0,0 9,5 5,8 2,13" fill="url(#taskGrad)" />
+            </svg>
+            <span className="text-[11px] font-semibold text-white/50 uppercase tracking-widest">
+              Navii
+            </span>
+            <div
+              className="flex items-center gap-1 px-1.5 py-0.5 rounded-full ml-1"
+              style={{ background: "rgba(59,130,246,0.12)", border: "1px solid rgba(59,130,246,0.2)" }}
+            >
+              <motion.div
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ repeat: Infinity, duration: 1.4 }}
+                className="w-1 h-1 rounded-full bg-blue-400"
+              />
+              <span className="text-[10px] text-blue-300 font-medium">{taskState}</span>
+            </div>
           </div>
-          <button onClick={handleStop} className="text-gray-400 hover:text-gray-600">
-            <X className="w-4 h-4" />
+          <button
+            onClick={handleStop}
+            className="text-white/25 hover:text-white/60 transition-colors"
+          >
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
-        
-        <div className="p-4 flex flex-col gap-3 max-h-60 overflow-y-auto">
-          {steps.map(step => (
-            <motion.div 
-              key={step.id} 
-              initial={{ opacity: 0, x: -10 }}
+
+        {/* Command label */}
+        <div className="px-4 pt-3 pb-2">
+          <p className="text-[11px] text-white/30 truncate">{activeTask}</p>
+        </div>
+
+        {/* Steps */}
+        <div className="px-4 pb-3 flex flex-col gap-2.5 max-h-48 overflow-y-auto">
+          {steps.map((step) => (
+            <motion.div
+              key={step.id}
+              initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
-              className={`flex items-start gap-3 text-sm ${
-                step.state === "active" ? "text-gray-900" : "text-gray-400"
-              }`}
+              className="flex items-start gap-2.5"
             >
               {step.state === "active" ? (
-                <Loader2 className="w-4 h-4 mt-0.5 animate-spin text-blue-500 flex-shrink-0" />
+                <div className="w-4 h-4 flex-shrink-0 mt-0.5 rounded-full border-2 border-blue-500/50 border-t-blue-400 animate-spin" />
+              ) : step.text === "Done!" ? (
+                <CheckCircle2 className="w-4 h-4 mt-0.5 text-green-400 flex-shrink-0" />
               ) : (
-                <CheckCircle2 className="w-4 h-4 mt-0.5 text-green-500 flex-shrink-0" />
+                <div className="w-4 h-4 flex-shrink-0 mt-0.5 flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                </div>
               )}
-              <span className="font-medium">{step.text}</span>
+              <span
+                className={`text-[13px] leading-snug ${
+                  step.state === "active"
+                    ? "text-white/90 font-medium"
+                    : step.text === "Done!"
+                    ? "text-green-400 font-semibold"
+                    : "text-white/35 line-through"
+                }`}
+              >
+                {step.text}
+              </span>
             </motion.div>
           ))}
-          
+        </div>
+
+        {/* Approval panel */}
+        <AnimatePresence>
           {taskState === "Waiting for Approval" && (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="mt-2 p-3 bg-blue-50 rounded-lg border border-blue-100"
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="overflow-hidden"
             >
-              <div className="flex items-center gap-2 text-blue-800 font-medium text-sm mb-3">
-                <AlertTriangle className="w-4 h-4" />
-                Proceed with action?
-              </div>
-              <div className="flex items-center gap-2">
-                <Button onClick={handleApprove} size="sm" className="w-full bg-blue-600 hover:bg-blue-700 text-xs">
-                  Approve
-                </Button>
-                <Button onClick={handleStop} variant="outline" size="sm" className="w-full text-xs border-red-200 text-red-600 hover:bg-red-50">
-                  Stop
-                </Button>
+              <div
+                className="mx-3 mb-3 p-3 rounded-xl"
+                style={{
+                  background: "rgba(251,191,36,0.08)",
+                  border: "1px solid rgba(251,191,36,0.2)",
+                }}
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                  <span className="text-[12px] font-semibold text-amber-300">Action requires approval</span>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleApprove}
+                    className="flex-1 h-8 rounded-lg text-xs font-semibold text-white transition-all"
+                    style={{
+                      background: "linear-gradient(135deg, #4F97FF 0%, #2563EB 100%)",
+                      boxShadow: "0 2px 8px rgba(37,99,235,0.35)",
+                    }}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={handleStop}
+                    className="flex-1 h-8 rounded-lg text-xs font-semibold text-red-400 transition-all hover:bg-red-500/10"
+                    style={{ border: "1px solid rgba(239,68,68,0.25)" }}
+                  >
+                    Stop
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}
-        </div>
+        </AnimatePresence>
       </motion.div>
     </AnimatePresence>
   );

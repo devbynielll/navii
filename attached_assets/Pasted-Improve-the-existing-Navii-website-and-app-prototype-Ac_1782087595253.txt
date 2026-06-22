@@ -1,0 +1,180 @@
+Improve the existing Navii website and app prototype. Act as an 11/10 senior product designer, motion designer, frontend engineer, and creative director.
+
+Do NOT add many new features. Focus on making the current UI feel much more premium, modern, polished, and startup-quality.
+
+CURRENT PROBLEMS TO FIX:
+1. The floating blue cursor is too large.
+2. The cursor looks flat, not glowing.
+3. The cursor follows the real mouse too slowly.
+4. The overall UI is clean but still too generic/simple.
+5. The hero needs more visual impact.
+6. The command palette should feel more premium like Raycast / Cursor / Linear.
+7. The app preview should look more realistic and high-end.
+8. Improve spacing, typography, shadows, gradients, and motion.
+
+DESIGN GOAL:
+Make Navii feel like a premium AI companion product.
+It should look clean, white, trustworthy, futuristic, and polished.
+The cursor should be the visual identity of the product.
+
+CURSOR REQUIREMENTS:
+Redesign the glowing Navii cursor:
+- Make it smaller: around 16–20px tall.
+- Use a refined triangular cursor shape.
+- Add electric blue gradient.
+- Add soft glow using box-shadow/filter/drop-shadow.
+- Add subtle blur aura behind it.
+- Add a tiny trailing glow or light particle effect if possible.
+- Add a subtle breathing/pulse animation.
+- It should feel alive, not like a flat SVG.
+- It should remain visible but not distracting.
+- Make the cursor follow the real cursor faster and smoother.
+- Use spring physics or requestAnimationFrame lerp.
+- Delay should feel intentional, not laggy.
+- Target feeling: responsive, smooth, premium.
+
+Suggested motion values if using Framer Motion:
+- stiffness around 500
+- damping around 35
+- mass around 0.5
+
+If using requestAnimationFrame:
+- use lerp factor around 0.18 to 0.28
+- avoid slow dragging behavior.
+
+COMMAND PALETTE REQUIREMENTS:
+Improve the Option + Space command palette:
+- Make it smaller, cleaner, and more premium.
+- It should appear beside the cursor.
+- Add glassmorphism: white/transparent background, blur, soft border.
+- Add soft blue glow around the palette.
+- Add spring entrance animation: scale 0.96 to 1, opacity 0 to 1.
+- Add smooth closing animation.
+- Add keyboard hint: “⌥ Space”
+- Add placeholder: “Ask Navii to do anything…”
+- Add subtle animated caret or typing effect.
+- Add command suggestions below input:
+  “Open Spotify and play Blinding Lights”
+  “Search YouTube for React tutorial”
+  “Summarize this page”
+- Pressing Enter should start the simulated task.
+- Escape should close the palette.
+- Keep Alt + Space support for Windows/Linux browser testing.
+
+HERO IMPROVEMENTS:
+Improve the hero section:
+- Make the headline feel more premium and memorable.
+- Keep the text:
+  “Your AI companion that moves with you.”
+- Increase visual drama with whitespace, gradient glow, and floating cursor.
+- Add a soft radial blue glow behind the command card.
+- Make the command card more premium.
+- Reduce visual clutter.
+- Add subtle background grain/noise or radial gradient if possible.
+- Make the hero feel like a flagship AI startup product.
+
+TYPOGRAPHY:
+- Improve font sizing, letter spacing, and line height.
+- Hero headline should be large, bold, and tightly spaced.
+- Body text should be softer and more refined.
+- Use consistent max-widths.
+- Avoid oversized blocks of text.
+- Make headings feel intentional.
+
+COLOR / VISUAL SYSTEM:
+Use a premium white UI:
+- Background: #FAFBFC or similar off-white
+- Primary text: near-black/navy
+- Secondary text: soft slate gray
+- Accent: electric blue
+- Use subtle gradients:
+  blue gradient from #5AA7FF to #2563EB
+- Use very soft shadows:
+  0 30px 80px rgba(15, 23, 42, 0.08)
+- Use subtle borders:
+  rgba(15, 23, 42, 0.08)
+
+APP PREVIEW IMPROVEMENTS:
+The desktop app mockup currently looks too plain.
+Improve it:
+- Make it look like a real premium desktop app.
+- Add a more refined top bar.
+- Use better spacing and panel hierarchy.
+- Make command palette inside app more realistic.
+- Improve the activity log design.
+- Add glowing cursor inside the preview.
+- Add subtle gradients and inner glow.
+- Keep dark app preview but make it polished, not just black rectangle.
+- Add status pills: Ready / Thinking / Acting.
+- Make Stop / Pause buttons look better.
+
+SECTION IMPROVEMENTS:
+Do not make everything look like repeated cards.
+Break visual rhythm:
+- Hero should feel cinematic.
+- Interaction demo should feel magical.
+- Features should feel clean and minimal.
+- App preview should feel product-like.
+- Safety should feel trustworthy and calm.
+- Download section should feel focused.
+
+FEATURE CARDS:
+Improve cards:
+- Softer shadows
+- Better hover animation
+- Slight lift on hover
+- More premium icons
+- Better spacing
+- Reduce generic SaaS feel
+
+INTERACTION DEMO:
+Improve the “From thought to action” section:
+- Make it feel like a mini product demo, not just three cards.
+- Show the cursor + command palette + action steps as a flowing story.
+- Add live step animation if possible.
+- Keep it clean.
+
+MOTION:
+Add smooth animations throughout:
+- Cursor follow
+- Palette open/close
+- Cards hover
+- Hero elements entrance
+- App preview subtle floating
+- Logs appearing one by one
+Use animations carefully. Premium, not excessive.
+
+RESPONSIVENESS:
+Make sure it still looks excellent on:
+- desktop
+- laptop
+- tablet
+- mobile
+
+IMPORTANT:
+Do not remove the current functionality:
+- glowing cursor follows mouse
+- Option + Space / Alt + Space opens palette
+- typing command + Enter starts simulated task
+- task logs appear
+- approval modal simulation
+- Escape closes palette
+
+But polish all of it.
+
+QUALITY BAR:
+This should not look like a school project.
+It should look like a serious AI startup landing page.
+Reference quality: Linear, Raycast, Cursor, Arc, Apple-style motion, premium SaaS sites.
+
+FINAL OUTPUT:
+After changes, the first impression should be:
+“Navii feels premium, magical, safe, and alive.”
+
+Prioritize:
+1. Cursor quality
+2. Command palette quality
+3. Hero polish
+4. Motion smoothness
+5. App preview polish
+6. Typography and spacing
