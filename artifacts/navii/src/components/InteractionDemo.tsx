@@ -44,7 +44,7 @@ const STEPS: Array<{
         <span className="text-[10px] text-white/40 truncate">Open Spotify…</span>
         <motion.span
           animate={{ opacity: [1, 0, 1] }}
-          transition={{ repeat: Infinity, duration: 0.9, ease: "steps(1)" }}
+          transition={{ repeat: Infinity, duration: 0.9, ease: "steps(1)" as any }}
           className="w-0.5 h-3 bg-blue-400 flex-shrink-0"
         />
       </div>

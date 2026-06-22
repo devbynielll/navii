@@ -28,6 +28,7 @@ export default function TaskSimulation() {
   const [steps, setSteps] = useState<Step[]>([]);
   const cancelledRef  = useRef(false);
   const approvalRef   = useRef<(() => void) | null>(null);
+  const approvalTimerRef = useRef<number | null>(null);
   const stepsEndRef   = useRef<HTMLDivElement>(null);
 
   // Auto-scroll steps
@@ -40,6 +41,10 @@ export default function TaskSimulation() {
 
     cancelledRef.current = false;
     approvalRef.current  = null;
+    if (approvalTimerRef.current !== null) {
+      clearTimeout(approvalTimerRef.current);
+      approvalTimerRef.current = null;
+    }
 
     const w = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
 
@@ -49,18 +54,54 @@ export default function TaskSimulation() {
         { id: Date.now() + Math.random(), text, state: "active" as StepState, kind },
       ]);
 
-    const waitForApproval = (autoMs: number) =>
-      new Promise<void>(resolve => {
-        const timer = setTimeout(() => {
-          approvalRef.current = null;
-          resolve();
-        }, autoMs);
-        approvalRef.current = () => {
-          clearTimeout(timer);
-          approvalRef.current = null;
-          resolve();
-        };
-      });
+    const clearApprovalTimer = () => {
+      if (approvalTimerRef.current !== null) {
+        clearTimeout(approvalTimerRef.current);
+        approvalTimerRef.current = null;
+      }
+    };
+
+    const finishTask = async () => {
+      setSteps(prev => [
+        ...prev.map(s => ({ ...s, state: "done" as StepState })),
+        { id: Date.now(), text: "Blinding Lights is playing ✓", state: "done", kind: "success" },
+      ]);
+      setTaskState("Done");
+      await w(2400);
+      if (cancelledRef.current) return;
+
+      // Restore
+      setActiveTask(null);
+      setTaskState("Idle");
+      setSteps([]);
+    };
+
+    const continueAfterApproval = async () => {
+      if (cancelledRef.current) return;
+
+      // 7 — Acting after approval
+      addStep("Clicking play…");
+      setTaskState("Acting");
+      await w(1000);
+      if (cancelledRef.current) return;
+
+      // 8 — Done
+      await finishTask();
+    };
+
+    const armApproval = () => {
+      let settled = false;
+      const proceed = () => {
+        if (settled) return;
+        settled = true;
+        clearApprovalTimer();
+        approvalRef.current = null;
+        void continueAfterApproval();
+      };
+
+      approvalRef.current = proceed;
+      approvalTimerRef.current = window.setTimeout(proceed, 2400);
+    };
 
     const run = async () => {
       // 1 — Listening
@@ -89,29 +130,15 @@ export default function TaskSimulation() {
       // 6 — Waiting for Approval
       addStep("Media permission required");
       setTaskState("Waiting for Approval");
-      await waitForApproval(2400); if (cancelledRef.current) return;
-
-      // 7 — Acting after approval
-      addStep("Clicking play…");
-      setTaskState("Acting");
-      await w(1000); if (cancelledRef.current) return;
-
-      // 8 — Done
-      setSteps(prev => [
-        ...prev.map(s => ({ ...s, state: "done" as StepState })),
-        { id: Date.now(), text: "Blinding Lights is playing ✓", state: "done", kind: "success" },
-      ]);
-      setTaskState("Done");
-      await w(2400); if (cancelledRef.current) return;
-
-      // Restore
-      setActiveTask(null);
-      setTaskState("Idle");
-      setSteps([]);
+      armApproval();
     };
 
     run();
-    return () => { cancelledRef.current = true; approvalRef.current = null; };
+    return () => {
+      cancelledRef.current = true;
+      approvalRef.current = null;
+      clearApprovalTimer();
+    };
   }, [activeTask, setTaskState, setActiveTask]);
 
   const handleApprove = () => approvalRef.current?.();
@@ -119,6 +146,10 @@ export default function TaskSimulation() {
   const handleStop = () => {
     cancelledRef.current = true;
     approvalRef.current  = null;
+    if (approvalTimerRef.current !== null) {
+      clearTimeout(approvalTimerRef.current);
+      approvalTimerRef.current = null;
+    }
     setTaskState("Idle");
     setActiveTask(null);
     setSteps([]);

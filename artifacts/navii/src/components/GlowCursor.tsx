@@ -63,7 +63,7 @@ export default function GlowCursor() {
   const auraRef     = useRef<HTMLDivElement>(null);
   const mouseRef    = useRef({ x: -200, y: -200 });
   const currentPos  = useRef({ x: -200, y: -200 });
-  const rafRef      = useRef<number>();
+  const rafRef      = useRef<number | null>(null);
   const modeRef     = useRef<"companion" | "autonomous">("companion");
   const autoTarget  = useRef({ x: 0, y: 0 });
   const hasMovedRef = useRef(false);
@@ -76,21 +76,23 @@ export default function GlowCursor() {
     const isAuto = taskState !== "Idle" && taskState !== "Done";
     modeRef.current = isAuto ? "autonomous" : "companion";
 
-    if (isAuto) {
-      const wp = WAYPOINTS[taskState];
-      if (wp) {
-        autoTarget.current = {
-          x: window.innerWidth  * wp.xFrac,
-          y: window.innerHeight * wp.yFrac,
-        };
-      }
-
-      // After cursor arrives (~900ms), fire a click ripple
-      const t = setTimeout(() => {
-        setRipple({ x: currentPos.current.x, y: currentPos.current.y, id: Date.now() });
-      }, 900);
-      return () => clearTimeout(t);
+    if (!isAuto) {
+      return undefined;
     }
+
+    const wp = WAYPOINTS[taskState];
+    if (wp) {
+      autoTarget.current = {
+        x: window.innerWidth  * wp.xFrac,
+        y: window.innerHeight * wp.yFrac,
+      };
+    }
+
+    // After cursor arrives (~900ms), fire a click ripple
+    const t = setTimeout(() => {
+      setRipple({ x: currentPos.current.x, y: currentPos.current.y, id: Date.now() });
+    }, 900);
+    return () => clearTimeout(t);
   }, [taskState]);
 
   // Single RAF loop — started once, reads only from refs
@@ -135,7 +137,7 @@ export default function GlowCursor() {
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
   }, []); // intentionally empty — reads refs only
 

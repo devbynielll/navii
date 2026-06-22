@@ -92,7 +92,7 @@ export default function DownloadSection() {
                 "0 0 0 1px rgba(37,99,235,0.35), 0 6px 20px rgba(37,99,235,0.30), 0 2px 4px rgba(37,99,235,0.15)";
             }}
           >
-            Download for Mac
+            Join Mac Beta
           </button>
           <button
             className="rounded-full px-8 h-11 text-[14px] font-semibold text-slate-700 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 w-full sm:w-auto transition-all active:scale-[0.97]"

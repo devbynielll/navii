@@ -95,7 +95,7 @@ export default function Hero() {
                 "0 0 0 1px rgba(37,99,235,0.35), 0 6px 20px rgba(37,99,235,0.30), 0 2px 4px rgba(37,99,235,0.15)";
             }}
           >
-            Download for Mac
+            Join Mac Beta
           </button>
 
           {/* Live demo trigger — opens palette near the button */}
@@ -114,6 +114,15 @@ export default function Hero() {
             Try Option + Space
           </button>
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.28 }}
+          className="text-[11px] text-slate-400 max-w-sm mx-auto leading-relaxed"
+        >
+          Website demo is simulated. Desktop automation coming in beta.
+        </motion.p>
 
         {/* Trust line */}
         <motion.p
@@ -190,7 +199,7 @@ export default function Hero() {
                 Open Spotify and play Blinding Lights
                 <motion.span
                   animate={{ opacity: [1, 0, 1] }}
-                  transition={{ repeat: Infinity, duration: 1, ease: "steps(1)" }}
+                  transition={{ repeat: Infinity, duration: 1, ease: "steps(1)" as any }}
                   className="ml-0.5 inline-block w-0.5 h-3.5 bg-blue-500 align-middle"
                 />
               </p>

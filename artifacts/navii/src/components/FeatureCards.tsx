@@ -75,7 +75,7 @@ function TypingPreview() {
         <span className="text-sky-600 font-medium">Blinding Lights</span>
         <motion.span
           animate={{ opacity: [1, 0, 1] }}
-          transition={{ repeat: Infinity, duration: 1, ease: "steps(1)" }}
+          transition={{ repeat: Infinity, duration: 1, ease: "steps(1)" as any }}
           className="inline-block w-0.5 h-3 bg-sky-500 ml-0.5 align-middle"
         />
       </span>
