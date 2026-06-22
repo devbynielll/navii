@@ -1,0 +1,502 @@
+# NAVII — INTERACTION SYSTEM REFINEMENT (DO NOT REDESIGN, POLISH THE EXPERIENCE)
+
+The current Navii website is already in a good direction.
+
+**Do NOT redesign the website from scratch.**
+
+Keep the existing visual language, layout, typography, color palette, sections, and branding.
+
+Instead, focus entirely on making Navii feel like a premium AI companion through interaction, motion, cursor behavior, and subtle polish.
+
+The goal is to make visitors immediately think:
+
+> "This feels alive."
+
+---
+
+# PRIMARY GOAL
+
+Navii is NOT another cursor.
+
+Navii is NOT replacing the user's mouse.
+
+Navii is a small AI companion that quietly follows the user, waits for commands, performs work independently, then comes back.
+
+The cursor should feel like a tiny digital pet.
+
+Everything else should support that feeling.
+
+---
+
+# CURSOR SYSTEM
+
+Redesign the cursor behavior.
+
+There are now TWO completely different modes.
+
+---
+
+## MODE 1 — Companion Mode (Idle)
+
+Default state.
+
+This should feel calm.
+
+The Navii cursor follows the user's real cursor.
+
+NOT directly.
+
+NOT attached.
+
+It follows behind.
+
+Like a pet.
+
+### Requirements
+
+Current follow speed is too fast.
+
+It no longer feels smooth.
+
+Slow it down.
+
+Target:
+
+Idle lerp:
+
+0.14–0.18
+
+NOT 0.25.
+
+Movement should feel:
+
+* soft
+* floaty
+* elegant
+* premium
+
+Never laggy.
+
+Never robotic.
+
+The cursor should slightly overshoot before settling.
+
+Use spring physics if possible.
+
+If using requestAnimationFrame, use interpolation instead of direct movement.
+
+---
+
+### Offset
+
+Do NOT stay beside the real cursor.
+
+Increase distance.
+
+Approximately:
+
+32px right
+
+26px down
+
+This creates separation.
+
+The user should never confuse Navii with their own cursor.
+
+---
+
+### Cursor Size
+
+Current cursor is still slightly large.
+
+Reduce slightly.
+
+Target:
+
+9px × 12px body
+
+Very elegant.
+
+Very sharp.
+
+Premium.
+
+---
+
+### Glow
+
+Keep glow.
+
+Reduce bloom.
+
+Current glow is slightly too obvious.
+
+Glow should feel like Apple UI.
+
+Not gaming RGB.
+
+Aura:
+
+22–24px max.
+
+---
+
+### Idle Animation
+
+Very subtle breathing.
+
+Small floating movement.
+
+Tiny rotation variation.
+
+Extremely subtle.
+
+Should almost be unnoticeable.
+
+---
+
+# MODE 2 — Autonomous Mode
+
+THIS IS THE MOST IMPORTANT PART OF NAVII.
+
+When the user presses Enter after typing a command...
+
+Navii should stop following the user.
+
+Completely.
+
+It becomes independent.
+
+It leaves the user.
+
+Like a little assistant.
+
+It goes and performs the task.
+
+This should feel magical.
+
+---
+
+## Example
+
+User presses:
+
+⌥ Space
+
+Palette opens.
+
+User types:
+
+Open Spotify and play Blinding Lights.
+
+User presses Enter.
+
+Immediately:
+
+The palette minimizes.
+
+Navii detaches.
+
+The user can continue moving their mouse.
+
+Navii ignores it.
+
+Navii now travels by itself.
+
+It moves toward target locations.
+
+Pauses.
+
+Clicks.
+
+Moves again.
+
+Waits.
+
+Thinks.
+
+Continues.
+
+When finished...
+
+Navii comes back.
+
+Returns beside the user's cursor.
+
+Resumes Companion Mode.
+
+---
+
+# Autonomous Cursor Motion
+
+Never teleport.
+
+Never snap.
+
+Move naturally.
+
+Use curved paths if possible.
+
+Ease in.
+
+Ease out.
+
+Pause briefly before clicks.
+
+After click:
+
+Small ripple.
+
+Glow pulse.
+
+Continue.
+
+---
+
+# Cursor States
+
+Create internal state system.
+
+idle
+
+listening
+
+thinking
+
+acting
+
+waitingApproval
+
+done
+
+Each state changes glow slightly.
+
+Idle
+
+soft blue
+
+Listening
+
+small pulse
+
+Thinking
+
+slightly brighter
+
+Acting
+
+slightly longer trail
+
+Waiting Approval
+
+soft amber pulse
+
+Done
+
+quick success pulse
+
+---
+
+# COMMAND PALETTE
+
+The command palette should feel like Raycast.
+
+Not like a modal.
+
+Not like a popup.
+
+It appears beside the cursor.
+
+Small.
+
+Elegant.
+
+Floating.
+
+Blurred glass.
+
+Soft shadow.
+
+Rounded corners.
+
+Excellent typography.
+
+---
+
+### Keyboard
+
+Mac:
+
+⌥ Space
+
+Browser testing:
+
+Alt + Space
+
+Escape closes palette.
+
+Enter executes.
+
+---
+
+### Suggestions
+
+Use animated suggestions.
+
+Open Spotify
+
+Search YouTube
+
+Summarize this page
+
+Open GitHub
+
+Rotate suggestions every few seconds.
+
+---
+
+# HERO POLISH
+
+Keep current hero.
+
+Do NOT redesign.
+
+Only improve refinement.
+
+Increase breathing room.
+
+Reduce heavy feeling.
+
+Make spacing feel luxurious.
+
+The command card should feel like a product demo.
+
+Not another card.
+
+---
+
+# WEBSITE POLISH
+
+Improve craftsmanship.
+
+Not layout.
+
+Improve:
+
+Typography
+
+Spacing
+
+Border opacity
+
+Shadow softness
+
+Hover timing
+
+Animation timing
+
+Micro interactions
+
+Scroll reveal timing
+
+Focus states
+
+Everything should feel intentional.
+
+---
+
+# APP PREVIEW
+
+Current preview is good.
+
+Make it feel like an actual desktop app.
+
+Better hierarchy.
+
+Better spacing.
+
+Better typography.
+
+More premium panels.
+
+Cleaner logs.
+
+Smaller status pill.
+
+---
+
+# FAQ
+
+Keep current accordion.
+
+Improve motion.
+
+Improve spacing.
+
+Improve hover.
+
+---
+
+# DOWNLOAD SECTION
+
+Keep current design.
+
+Increase emotional impact.
+
+The final CTA should feel like:
+
+"I'm ready to try Navii."
+
+---
+
+# MOTION PHILOSOPHY
+
+Nothing should feel fast.
+
+Nothing should feel slow.
+
+Everything should feel inevitable.
+
+Animations should never attract attention.
+
+They should simply feel correct.
+
+---
+
+# IMPORTANT
+
+Do NOT add more sections.
+
+Do NOT redesign everything.
+
+Do NOT make the UI more colorful.
+
+Do NOT add gradients everywhere.
+
+Do NOT add unnecessary decorations.
+
+The quality increase should come from craftsmanship.
+
+---
+
+# QUALITY BAR
+
+Imagine this project will be reviewed by designers from:
+
+Apple
+
+Linear
+
+Raycast
+
+Cursor
+
+Arc Browser
+
+The final experience should feel like it belongs in that category.
+
+Every animation, movement, spacing, shadow, and interaction should reinforce one idea:
+
+Navii is not software.
+
+Navii is a quiet AI companion that lives beside you.
