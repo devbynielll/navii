@@ -1,0 +1,256 @@
+You are an 11/10 senior full-stack developer, product designer, UI/UX designer, animation engineer, and creative director.
+
+Build a premium modern website and desktop-app prototype for a product called “Navii”.
+
+PRODUCT:
+Navii is an AI computer/browser companion with a glowing cursor. It sits beside the user’s real cursor with a smooth delayed-follow effect. When the user presses a shortcut like Option + Space, a small floating command input appears beside the cursor. The user types a command, presses Enter, and Navii performs the task visually with a glowing AI cursor and live action steps.
+
+IMPORTANT PRODUCT BEHAVIOR:
+
+* Navii has a floating glowing cursor/triangle.
+* The Navii cursor follows the real cursor with a smooth delay effect.
+* When the user presses Option + Space, show a floating command palette beside the cursor.
+* The command palette should feel like Raycast/Cursor/Linear: clean, minimal, premium.
+* After the user types a command and presses Enter, show simulated action logs and animate the Navii cursor as if it is performing the task.
+* The automation is only a UI simulation for now. Do not implement real Playwright yet.
+* Include clear states: Idle, Listening, Thinking, Acting, Waiting for Approval, Done.
+* Add a Stop button and Approval button for sensitive actions.
+
+EXAMPLE COMMANDS:
+
+* “Open Spotify and play Blinding Lights”
+* “Search YouTube for React tutorial”
+* “Open Google and find affordable cameras”
+* “Summarize this webpage”
+* “Find the Effects panel”
+* “Open GitHub and search my repository”
+
+DESIGN DIRECTION:
+Create a clean, premium, trustworthy, modern white interface.
+Inspired by high-end startup websites like Linear, Raycast, Cursor, Arc, and modern design studios.
+Do NOT copy any existing website exactly.
+Make it original, polished, and production-quality.
+
+VISUAL STYLE:
+
+* White / off-white background
+* Black typography
+* Soft gray secondary text
+* Electric blue accent
+* Glowing blue cursor icon/triangle
+* Huge whitespace
+* Subtle borders
+* Soft shadows
+* Rounded cards
+* Subtle glass/blur
+* Smooth Framer Motion animations
+* Premium, not childish
+* Cute companion feeling, but still professional and trustworthy
+
+TECH STACK:
+Use React + TypeScript + Tailwind CSS.
+Use Framer Motion for animations if available.
+Use only free/open-source packages.
+Make everything work in Replit.
+No paid services required.
+No backend required for the first version unless needed.
+Keep the project simple, fast, and clean.
+
+IMPORTANT FREE REQUIREMENT:
+This project must be completely free to develop and run for the prototype.
+Use:
+
+* Replit free environment
+* React/Vite
+* Tailwind CSS
+* Framer Motion if available
+* Local mock data
+* No paid APIs yet
+* No OpenAI API yet
+* No Supabase yet
+* No real automation yet
+  This version is a polished frontend prototype only.
+
+WEBSITE REQUIREMENTS:
+Create a landing page for Navii.
+
+Sections:
+
+1. Navbar
+
+* Navii logo on the left
+* Links: Product, Features, App, Safety, FAQ
+* Button: Download
+* Minimal and sticky if possible
+
+2. Hero Section
+   Headline:
+   “Your AI companion that moves with you.”
+
+Subheadline:
+“Press Option + Space, type what you need, and watch Navii guide your workflow with a glowing cursor that follows your intent.”
+
+Buttons:
+
+* Download for Mac
+* Watch demo
+
+Small trust text:
+“Private by design. You approve important actions.”
+
+Hero visual:
+
+* Large clean white space
+* Animated glowing Navii cursor near the hero
+* Small floating command palette beside the cursor
+* Example command inside:
+  “Open Spotify and play Blinding Lights”
+
+3. Interaction Demo Section
+   Show the actual Navii behavior:
+
+* User cursor area
+* Navii cursor follows with smooth delay
+* Press Option + Space button simulation
+* Command field appears beside the cursor
+* User enters command
+* Live steps appear:
+
+  1. Listening
+  2. Understanding command
+  3. Opening Spotify
+  4. Searching song
+  5. Clicking play
+  6. Done
+
+Make this feel magical and premium.
+
+4. Feature Cards
+   Create 6 feature cards:
+
+* Delayed AI Cursor
+* Option + Space Command
+* Natural Language Tasks
+* Live Thinking Steps
+* Approval Before Risky Actions
+* Task History
+
+5. Desktop App Preview
+   Create a mock Navii desktop app window:
+
+* Top bar with Navii logo/status
+* Center command palette
+* Right activity log
+* Glowing AI cursor
+* Task progress panel
+* Buttons: Run, Stop, Approve
+* Status pill: Ready / Thinking / Acting / Done
+
+6. Safety / Trust Section
+   Show:
+
+* “You stay in control”
+* “Sensitive actions need approval”
+* “Clear activity logs”
+* “No hidden clicks”
+* “Prototype runs locally”
+* “Automation roadmap is transparent”
+
+7. Use Cases Section
+   Cards:
+
+* Play music
+* Search websites
+* Summarize pages
+* Research faster
+* Guide software workflows
+* Automate repetitive tasks
+
+8. Download Section
+   Headline:
+   “Start with a command.”
+   Buttons:
+
+* Download for Mac
+* Join Windows waitlist
+  Note:
+  “Desktop prototype coming soon. Browser demo available during development.”
+
+9. FAQ
+   Questions:
+
+* Is Navii free?
+* Is this already controlling my computer?
+* Can Navii control desktop apps like CapCut?
+* Does it move my real cursor?
+* What happens when I press Option + Space?
+* Can I stop Navii anytime?
+* Will there be a Windows version?
+
+10. Footer
+    Navii logo, short description, links, copyright.
+
+APP PROTOTYPE REQUIREMENTS:
+Also create a separate App Prototype view/section showing how Navii would look as a desktop app.
+
+It should include:
+
+* Floating command palette
+* Option + Space hint
+* Animated delayed-follow cursor
+* Suggested commands
+* Activity log
+* Task progress
+* Approval modal simulation
+* Stop button
+
+INTERACTION REQUIREMENTS:
+Implement frontend-only interactions:
+
+* A visible glowing Navii cursor follows the user’s mouse with delay.
+* Pressing Option + Space opens a floating command palette near the current cursor position.
+* Also add a clickable “Try Option + Space” button for users who cannot trigger the shortcut.
+* Typing a command and pressing Enter starts a simulated task.
+* Simulated logs appear one by one.
+* The Navii cursor moves to a few positions during the task.
+* When the task reaches a sensitive action, show an approval modal.
+* User can click Approve or Stop.
+* After completion, show “Done”.
+
+KEYBOARD SHORTCUT:
+Implement keyboard listener:
+
+* Mac: Option + Space
+* Also support Alt + Space for Windows/Linux keyboards in browser testing.
+* Prevent breaking the page.
+* Show a small hint: “Press Option + Space to summon Navii.”
+
+CODE QUALITY:
+Use organized components:
+
+* Navbar
+* Hero
+* GlowCursor
+* CommandPalette
+* InteractionDemo
+* FeatureCard
+* AppPreview
+* SafetySection
+* UseCases
+* FAQ
+* Footer
+
+Make it responsive.
+Make it clean.
+Make it modern.
+Make it look like a real startup product, not a school project.
+
+FINAL EXPECTATION:
+The final output should feel like a premium AI companion product.
+It should immediately communicate:
+
+1. Navii is a glowing AI cursor companion.
+2. It appears with Option + Space.
+3. Users type commands.
+4. Navii performs tasks visually.
+5. The product is safe, clean, trustworthy, and modern.
