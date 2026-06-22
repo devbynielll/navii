@@ -1,0 +1,429 @@
+# NAVII — WORLD-CLASS DESIGN POLISH PASS
+
+You are no longer acting as a frontend developer.
+
+You are now acting as:
+
+* Senior Product Designer (Apple)
+* Motion Designer (Linear)
+* Design Engineer (Cursor)
+* Creative Director (Raycast)
+* UI Systems Designer (Vercel)
+
+Your job is NOT to redesign Navii.
+
+Your job is to elevate it from an excellent startup website into something that could compete internationally.
+
+Assume this website will be judged against the best AI startup websites in the world.
+
+The current design is already strong.
+
+Do not add unnecessary features.
+
+Do not redesign everything.
+
+Do not add random gradients.
+
+Do not add unnecessary animations.
+
+Refine.
+
+Polish.
+
+Simplify.
+
+Everything should feel intentional.
+
+---
+
+# DESIGN PHILOSOPHY
+
+Every element must have purpose.
+
+Every spacing value should feel deliberate.
+
+Every animation should reinforce the product.
+
+Every shadow should communicate depth.
+
+Nothing decorative without meaning.
+
+If something doesn't improve usability or emotion,
+
+remove it.
+
+---
+
+# STORYTELLING
+
+The website currently explains features.
+
+It should instead tell a story.
+
+Visitors should naturally experience this sequence:
+
+↓
+
+Meet Navii
+
+↓
+
+Understand what Navii is
+
+↓
+
+Watch Navii come alive
+
+↓
+
+Understand how it thinks
+
+↓
+
+Understand how it works
+
+↓
+
+See why it is trustworthy
+
+↓
+
+Imagine using it every day
+
+↓
+
+Download
+
+Each section should naturally lead into the next.
+
+Never feel disconnected.
+
+---
+
+# HERO
+
+The hero should immediately communicate one thing:
+
+Navii is alive.
+
+The hero should feel calm.
+
+Confident.
+
+Expensive.
+
+Not loud.
+
+The command demo should feel like a product preview,
+
+not a UI card.
+
+Increase visual hierarchy.
+
+Increase breathing room.
+
+Reduce visual noise.
+
+Make users stop scrolling.
+
+---
+
+# "HOW IT WORKS"
+
+Completely rethink this section.
+
+The current implementation feels like three separate feature cards.
+
+Instead,
+
+make it feel like one continuous experience.
+
+Example flow:
+
+Press ⌥ Space
+
+↓
+
+Type a command
+
+↓
+
+Watch Navii think
+
+↓
+
+Watch Navii move
+
+↓
+
+Task complete
+
+The user's eyes should naturally travel from left to right.
+
+This should feel like one product journey,
+
+not four independent cards.
+
+---
+
+# FEATURES
+
+Current cards are clean.
+
+They lack personality.
+
+Each feature card should preview the feature,
+
+not merely describe it.
+
+Examples:
+
+AI Cursor
+
+Tiny animated cursor inside the card.
+
+Command Palette
+
+Mini floating command palette.
+
+Activity Logs
+
+Animated logs appearing.
+
+Approval
+
+Mini approval dialog.
+
+Task History
+
+Tiny timeline preview.
+
+Browser Automation
+
+Mini cursor clicking.
+
+Every card should teach visually.
+
+Not only with text.
+
+---
+
+# TRUST
+
+Trust is one of Navii's biggest selling points.
+
+Make this section significantly stronger.
+
+Instead of just listing security statements,
+
+create a premium trust experience.
+
+Include:
+
+Permission approval
+
+Visible activity history
+
+Transparent actions
+
+User control
+
+Local-first roadmap
+
+Everything should reinforce:
+
+"You stay in control."
+
+---
+
+# APP PREVIEW
+
+This should become the centerpiece of the website.
+
+Treat it like Apple's product renders.
+
+Increase realism.
+
+Improve hierarchy.
+
+Improve spacing.
+
+Improve panel proportions.
+
+Improve typography.
+
+Improve lighting.
+
+Improve reflections.
+
+The app should feel installable today.
+
+---
+
+# MICRO INTERACTIONS
+
+Review every interaction.
+
+Buttons.
+
+Cards.
+
+FAQ.
+
+Navbar.
+
+Command palette.
+
+Everything.
+
+Animations should feel inevitable.
+
+Never flashy.
+
+Never distracting.
+
+Never slow.
+
+Everything should feel effortless.
+
+---
+
+# TYPOGRAPHY
+
+Review every heading.
+
+Every paragraph.
+
+Every line height.
+
+Every max-width.
+
+Improve readability.
+
+Reduce visual fatigue.
+
+Premium typography is mostly spacing.
+
+Not font weight.
+
+---
+
+# SPACING SYSTEM
+
+Audit the entire page.
+
+No arbitrary spacing.
+
+Create consistent spacing rhythm.
+
+Every section should breathe.
+
+No section should feel empty.
+
+No section should feel crowded.
+
+---
+
+# COLOR SYSTEM
+
+Current palette is good.
+
+Refine it.
+
+Reduce saturation slightly.
+
+Increase elegance.
+
+Improve contrast.
+
+Use color intentionally.
+
+Blue should mean action.
+
+Nothing else.
+
+---
+
+# ICONOGRAPHY
+
+Review every icon.
+
+Use one consistent visual language.
+
+Same stroke weight.
+
+Same optical balance.
+
+Same corner radius.
+
+Same size philosophy.
+
+---
+
+# COMPONENT CONSISTENCY
+
+Audit every button.
+
+Every input.
+
+Every card.
+
+Every border radius.
+
+Every shadow.
+
+Every hover.
+
+Everything should belong to the same design system.
+
+---
+
+# PERFORMANCE
+
+Reduce unnecessary DOM complexity.
+
+Reduce layout shift.
+
+Reduce unnecessary animations.
+
+Prefer transform over layout animation.
+
+Maintain excellent Lighthouse performance.
+
+---
+
+# ACCESSIBILITY
+
+Improve keyboard navigation.
+
+Improve focus states.
+
+Improve contrast.
+
+Improve reduced-motion support.
+
+Improve semantic HTML.
+
+---
+
+# FINAL QUALITY BAR
+
+When finished,
+
+the website should not feel like:
+
+"a React landing page."
+
+It should feel like:
+
+"a premium product that already belongs in the market."
+
+Someone seeing Navii for the first time should immediately think:
+
+"This feels like a company that has already raised a Series A."
+
+Do not optimize for impressing developers.
+
+Optimize for building trust, clarity, elegance, and emotional connection.
+
+The final result should be minimal, timeless, premium, and internationally competitive.
