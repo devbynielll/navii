@@ -20,37 +20,37 @@ const STATE_STYLE: Record<TaskState, {
   Idle: {
     aura: "radial-gradient(circle, rgba(59,130,246,0.11) 0%, transparent 75%)",
     filter: "drop-shadow(0 0 3px rgba(59,130,246,0.50)) drop-shadow(0 0 6px rgba(59,130,246,0.20))",
-    auraSize: 22,
+    auraSize: 28,
     cursorColors: ["#60A5FA", "#2563EB", "#4F46E5"],
   },
   Listening: {
     aura: "radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%)",
     filter: "drop-shadow(0 0 4px rgba(59,130,246,0.70)) drop-shadow(0 0 9px rgba(59,130,246,0.32))",
-    auraSize: 24,
+    auraSize: 30,
     cursorColors: ["#7FC3FF", "#2563EB", "#4F46E5"],
   },
   Thinking: {
     aura: "radial-gradient(circle, rgba(59,130,246,0.22) 0%, transparent 68%)",
     filter: "drop-shadow(0 0 5px rgba(59,130,246,0.80)) drop-shadow(0 0 11px rgba(59,130,246,0.38))",
-    auraSize: 26,
+    auraSize: 32,
     cursorColors: ["#93C5FD", "#3B82F6", "#4F46E5"],
   },
   Acting: {
     aura: "radial-gradient(circle, rgba(59,130,246,0.26) 0%, transparent 65%)",
     filter: "drop-shadow(0 0 6px rgba(59,130,246,0.90)) drop-shadow(0 0 13px rgba(59,130,246,0.42))",
-    auraSize: 28,
+    auraSize: 34,
     cursorColors: ["#93C5FD", "#2563EB", "#6366F1"],
   },
   "Waiting for Approval": {
     aura: "radial-gradient(circle, rgba(251,191,36,0.20) 0%, transparent 70%)",
     filter: "drop-shadow(0 0 5px rgba(251,191,36,0.72)) drop-shadow(0 0 10px rgba(251,191,36,0.30))",
-    auraSize: 26,
+    auraSize: 30,
     cursorColors: ["#FDE68A", "#F59E0B", "#D97706"],
   },
   Done: {
     aura: "radial-gradient(circle, rgba(52,211,153,0.18) 0%, transparent 70%)",
     filter: "drop-shadow(0 0 5px rgba(52,211,153,0.78)) drop-shadow(0 0 10px rgba(52,211,153,0.35))",
-    auraSize: 26,
+    auraSize: 30,
     cursorColors: ["#6EE7B7", "#10B981", "#059669"],
   },
 };
@@ -98,7 +98,7 @@ export default function GlowCursor() {
     const onMouseMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
       if (!hasMovedRef.current) {
-        currentPos.current = { x: e.clientX + 32, y: e.clientY + 26 };
+        currentPos.current = { x: e.clientX + 18, y: e.clientY + 14 };
         hasMovedRef.current = true;
       }
     };
@@ -112,7 +112,7 @@ export default function GlowCursor() {
 
       const target = isAuto
         ? autoTarget.current
-        : { x: mouseRef.current.x + 32, y: mouseRef.current.y + 26 };
+        : { x: mouseRef.current.x + 18, y: mouseRef.current.y + 14 };
 
       currentPos.current.x = lerp(currentPos.current.x, target.x, factor);
       currentPos.current.y = lerp(currentPos.current.y, target.y, factor);
@@ -184,7 +184,7 @@ export default function GlowCursor() {
         )}
       </AnimatePresence>
 
-      {/* Cursor glyph — 9×12px */}
+      {/* Cursor glyph — 12×16px */}
       <div
         ref={wrapperRef}
         className="fixed top-0 left-0 pointer-events-none z-[100]"
@@ -192,8 +192,8 @@ export default function GlowCursor() {
       >
         <div
           style={{
-            width: 9,
-            height: 12,
+            width: 12,
+            height: 16,
             clipPath: "polygon(0 0, 100% 44%, 64% 60%, 28% 100%)",
             background: `linear-gradient(135deg, ${c0} 0%, ${c1} 55%, ${c2} 100%)`,
             filter: cfg.filter,
