@@ -1,0 +1,108 @@
+Refine the Navii website again. Focus on precision polish, especially the floating AI cursor.
+
+MAIN ISSUE:
+The Navii floating cursor is still too big and too close to the user’s real cursor. It currently feels like a duplicate cursor instead of a companion cursor.
+
+CURSOR CHANGES:
+- Make the Navii cursor much smaller and more premium.
+- Target size: 10–12px wide, 13–15px tall.
+- Do not make it look like a huge arrow.
+- It should feel like a tiny glowing companion/pointer.
+- Add distance from the real cursor:
+  - Offset it around 26px to the right and 22px below the real cursor.
+  - It should NOT overlap or sit directly beside the real cursor.
+  - It should follow like a small pet/follower, not replace the cursor.
+- Make the movement faster but still smooth:
+  - Use lerp around 0.22–0.32 for idle.
+  - Use 0.35–0.45 when acting.
+  - It should feel responsive, not laggy.
+- Reduce the glow size slightly.
+- Keep glow soft and premium, not too blurry/big.
+- Add a subtle blue aura, but make it controlled.
+- Cursor should be visible on white background but not distracting.
+- On hover near text/cards, it should not cover content too much.
+
+CURSOR VISUAL STYLE:
+Make it closer to a small glowing triangular glyph:
+- gradient fill: #60A5FA to #2563EB to #4F46E5
+- subtle inner shine/highlight
+- drop shadow:
+  0 0 8px rgba(59,130,246,.55)
+  0 0 18px rgba(59,130,246,.25)
+- aura behind:
+  22–28px soft radial blur max, not huge
+- opacity around 0.95
+
+IMPORTANT:
+The user’s real cursor and Navii cursor should look intentionally separate:
+Real cursor = normal pointer.
+Navii = tiny glowing follower with delay and offset.
+
+WEBSITE POLISH:
+The site is better now, but still improve these:
+
+1. Hero:
+- The headline is good but slightly too huge and heavy.
+- Reduce hero headline size a little on laptop screens so it feels more elegant.
+- Keep the gradient line but make it smoother and less overpowering.
+- Improve vertical spacing so the hero doesn’t feel cramped under the browser/nav.
+- Make the hero command card slightly more premium and less basic.
+
+2. Navbar:
+- Make navbar feel more refined.
+- Add subtle backdrop blur and very soft border.
+- Nav links should have smooth hover states.
+- Logo should feel balanced, not oversized.
+
+3. Feature cards:
+- Current cards are clean but a bit generic.
+- Add subtle gradient background on hover only.
+- Make icons smaller and more premium.
+- Add very soft inner shadow/border.
+- Keep cards minimal.
+
+4. App preview:
+- App preview is good. Improve realism:
+  - Better dark surface contrast
+  - More refined borders
+  - Slight blue ambient glow behind the window
+  - Make activity log text more readable
+  - Make status pill smaller and cleaner
+
+5. Sections:
+- Reduce overly large blank spaces where it feels empty.
+- Keep whitespace, but make spacing intentional.
+- Add subtle section dividers/gradients instead of hard empty gaps.
+
+6. FAQ:
+- Current FAQ looks too plain.
+- Make FAQ accordion more premium:
+  - rounded rows
+  - subtle hover
+  - soft border
+  - no ugly default browser focus outline
+  - custom focus style instead
+
+7. Download section:
+- Make the final CTA feel more premium.
+- Add soft blue radial glow behind the Navii logo.
+- Make buttons consistent with hero.
+
+8. Overall:
+- More premium, less generic SaaS.
+- Keep white, clean, trustworthy.
+- Do not make it colorful or childish.
+- Do not add more sections.
+- Do not break existing interactions.
+
+FUNCTIONALITY TO KEEP:
+- Delayed cursor following mouse
+- Option + Space / Alt + Space opens command palette
+- Try Option + Space button works
+- Typing command + Enter starts simulation
+- Logs/approval modal still work
+- Escape closes palette
+
+QUALITY TARGET:
+Make the site feel like a polished AI startup product.
+The cursor should feel like Navii’s signature identity: small, glowing, premium, and alive.
