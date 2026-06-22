@@ -11,20 +11,63 @@ const SUGGESTIONS = [
   { icon: Github,   text: "Open GitHub and search my repos",       hint: "Dev" },
 ];
 
-export default function CommandPalette() {
-  const { isCommandPaletteOpen, setIsCommandPaletteOpen, triggerCommand } = useNavii();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [highlightedIdx, setHighlightedIdx] = useState(0);
+const PALETTE_W = 520;
 
-  // Auto-focus input
+// Module-level mouse tracker — updated even when palette is closed
+let _mx = 640;
+let _my = 300;
+
+export default function CommandPalette() {
+  const {
+    isCommandPaletteOpen,
+    setIsCommandPaletteOpen,
+    triggerCommand,
+    paletteOrigin,
+    autoRunPending,
+    setAutoRunPending,
+    openCommandPalette,
+  } = useNavii();
+
+  const [highlightedIdx, setHighlightedIdx] = useState(0);
+  const [inputValue, setInputValue]         = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Track mouse globally for keyboard shortcut positioning
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => { _mx = e.clientX; _my = e.clientY; };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+
+  // Global keyboard shortcuts
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.altKey && e.code === "Space") {
+        e.preventDefault();
+        if (isCommandPaletteOpen) {
+          setIsCommandPaletteOpen(false);
+        } else {
+          openCommandPalette(_mx, _my);
+        }
+      }
+      if (e.key === "Escape" && isCommandPaletteOpen) {
+        setIsCommandPaletteOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isCommandPaletteOpen, openCommandPalette, setIsCommandPaletteOpen]);
+
+  // Reset + focus on open
   useEffect(() => {
     if (isCommandPaletteOpen) {
-      setTimeout(() => inputRef.current?.focus(), 80);
+      setInputValue("");
       setHighlightedIdx(0);
+      setTimeout(() => inputRef.current?.focus(), 60);
     }
   }, [isCommandPaletteOpen]);
 
-  // Rotate highlighted suggestion every 2.4s while open
+  // Rotating suggestion highlight (2.4s interval)
   useEffect(() => {
     if (!isCommandPaletteOpen) return;
     const id = setInterval(() => {
@@ -33,24 +76,42 @@ export default function CommandPalette() {
     return () => clearInterval(id);
   }, [isCommandPaletteOpen]);
 
-  // Keyboard shortcuts
+  // Auto-run demo sequence (triggered from Hero button)
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.altKey && e.code === "Space") {
-        e.preventDefault();
-        setIsCommandPaletteOpen((prev: boolean) => !prev);
-      }
-      if (e.key === "Escape") setIsCommandPaletteOpen(false);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [setIsCommandPaletteOpen]);
+    if (!isCommandPaletteOpen || !autoRunPending) return;
+    setAutoRunPending(false);
+
+    const TARGET = SUGGESTIONS[0].text;
+    let alive = true;
+
+    const t1 = setTimeout(() => {
+      if (!alive) return;
+      setInputValue(TARGET); // fill instantly
+      const t2 = setTimeout(() => {
+        if (!alive) return;
+        handleSubmit(TARGET);
+      }, 700);
+      return () => clearTimeout(t2);
+    }, 950);
+
+    return () => { alive = false; clearTimeout(t1); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCommandPaletteOpen, autoRunPending]);
 
   const handleSubmit = (text: string) => {
-    if (!text.trim()) return;
-    triggerCommand(text);
+    const cmd = text.trim();
+    if (!cmd) return;
+    triggerCommand(cmd);
     setIsCommandPaletteOpen(false);
   };
+
+  // Compute palette position near cursor/button or fall back to center
+  const posStyle: React.CSSProperties = paletteOrigin
+    ? {
+        top:  Math.max(70, Math.min(paletteOrigin.y + 20, window.innerHeight - 370)),
+        left: Math.max(16, Math.min(paletteOrigin.x - PALETTE_W / 2, window.innerWidth - PALETTE_W - 16)),
+      }
+    : { top: "22%", left: "50%", transform: "translateX(-50%)" };
 
   return (
     <AnimatePresence>
@@ -62,69 +123,78 @@ export default function CommandPalette() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18 }}
-            className="fixed inset-0 z-50"
-            style={{ background: "rgba(6,6,10,0.52)", backdropFilter: "blur(5px)" }}
+            className="fixed inset-0"
+            style={{ zIndex: 50, background: "rgba(6,6,10,0.40)", backdropFilter: "blur(3px)" }}
             onClick={() => setIsCommandPaletteOpen(false)}
           />
 
           {/* Palette */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: -10 }}
+            initial={{ opacity: 0, scale: 0.95, y: -8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: -10 }}
-            transition={{ type: "spring", stiffness: 480, damping: 36, mass: 0.5 }}
-            className="fixed z-50 left-1/2 -translate-x-1/2 w-full max-w-[520px]"
-            style={{ top: "22%" }}
+            exit={{ opacity: 0, scale: 0.95, y: -8 }}
+            transition={{ type: "spring", stiffness: 500, damping: 38, mass: 0.45 }}
+            className="fixed"
+            style={{ zIndex: 51, width: "100%", maxWidth: PALETTE_W, ...posStyle }}
           >
             {/* Outer glow */}
             <div
               className="absolute inset-0 rounded-2xl pointer-events-none"
-              style={{ boxShadow: "0 0 0 1px rgba(59,130,246,0.22), 0 0 48px rgba(59,130,246,0.10)" }}
+              style={{ boxShadow: "0 0 0 1px rgba(59,130,246,0.22), 0 0 40px rgba(59,130,246,0.09)" }}
             />
 
             {/* Glass panel */}
             <div
               className="relative rounded-2xl overflow-hidden"
               style={{
-                background: "rgba(11,11,17,0.94)",
+                background: "rgba(11,11,17,0.95)",
                 backdropFilter: "blur(28px) saturate(180%)",
-                boxShadow: "0 28px 72px rgba(0,0,0,0.52), inset 0 0 0 1px rgba(255,255,255,0.055)",
+                boxShadow: "0 28px 72px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.055)",
               }}
             >
-              {/* Input */}
+              {/* Input row */}
               <div
                 className="flex items-center px-4 py-3.5 gap-3"
                 style={{ borderBottom: "1px solid rgba(255,255,255,0.055)" }}
               >
                 <svg width="11" height="14" viewBox="0 0 11 14" fill="none" style={{ flexShrink: 0, filter: "drop-shadow(0 0 3px rgba(59,130,246,0.85))" }}>
                   <defs>
-                    <linearGradient id="palGrad2" x1="0" y1="0" x2="1" y2="1">
+                    <linearGradient id="palGradCP" x1="0" y1="0" x2="1" y2="1">
                       <stop offset="0%" stopColor="#60A5FA" />
                       <stop offset="100%" stopColor="#2563EB" />
                     </linearGradient>
                   </defs>
-                  <polygon points="0,0 10,5.5 6.5,7.5 2.5,14" fill="url(#palGrad2)" />
+                  <polygon points="0,0 10,5.5 6.5,7.5 2.5,14" fill="url(#palGradCP)" />
                 </svg>
 
                 <input
                   ref={inputRef}
                   type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Ask Navii to do anything…"
                   className="flex-1 bg-transparent border-none outline-none text-[14px] font-medium text-white/88 placeholder:text-white/22"
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") handleSubmit(e.currentTarget.value);
-                    if (e.key === "ArrowDown") setHighlightedIdx(i => Math.min(i + 1, SUGGESTIONS.length - 1));
-                    if (e.key === "ArrowUp")   setHighlightedIdx(i => Math.max(i - 1, 0));
+                    if (e.key === "Enter") {
+                      // If empty, execute highlighted suggestion
+                      handleSubmit(inputValue || SUGGESTIONS[highlightedIdx].text);
+                    }
+                    if (e.key === "ArrowDown") {
+                      e.preventDefault();
+                      setHighlightedIdx(i => Math.min(i + 1, SUGGESTIONS.length - 1));
+                    }
+                    if (e.key === "ArrowUp") {
+                      e.preventDefault();
+                      setHighlightedIdx(i => Math.max(i - 1, 0));
+                    }
                     if (e.key === "Tab") {
                       e.preventDefault();
-                      if (inputRef.current) {
-                        inputRef.current.value = SUGGESTIONS[highlightedIdx].text;
-                      }
+                      setInputValue(SUGGESTIONS[highlightedIdx].text);
                     }
                   }}
                 />
 
-                <kbd className="px-1.5 py-0.5 rounded-md text-[10px] font-medium text-white/25 border border-white/08 bg-white/04 flex-shrink-0">
+                <kbd className="px-1.5 py-0.5 rounded-md text-[10px] font-medium text-white/22 border border-white/08 bg-white/04 flex-shrink-0 select-none">
                   ⌥ Space
                 </kbd>
               </div>
@@ -136,57 +206,61 @@ export default function CommandPalette() {
                 </div>
 
                 {SUGGESTIONS.map((item, i) => {
-                  const isHighlighted = highlightedIdx === i;
+                  const isHigh = highlightedIdx === i;
                   return (
                     <motion.button
                       key={i}
                       layout
                       initial={{ opacity: 0, x: -3 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.035 }}
+                      transition={{ delay: i * 0.03 }}
                       onClick={() => handleSubmit(item.text)}
-                      className="flex items-center w-full px-3 py-2 mx-1 rounded-xl text-left relative overflow-hidden"
+                      className="flex items-center w-full px-3 py-2 mx-1 rounded-xl text-left relative"
                       style={{
                         width: "calc(100% - 8px)",
-                        background: isHighlighted ? "rgba(59,130,246,0.09)" : "transparent",
-                        transition: "background 0.25s ease",
+                        background: isHigh ? "rgba(59,130,246,0.09)" : "transparent",
+                        transition: "background 0.22s ease",
                       }}
                     >
-                      {/* Subtle left accent when highlighted */}
-                      {isHighlighted && (
+                      {isHigh && (
                         <motion.div
-                          layoutId="suggestion-accent"
+                          layoutId="pal-accent"
                           className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-full"
-                          style={{ background: "#3B82F6", boxShadow: "0 0 6px rgba(59,130,246,0.7)" }}
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                          style={{ background: "#3B82F6", boxShadow: "0 0 5px rgba(59,130,246,0.6)" }}
+                          transition={{ type: "spring", stiffness: 380, damping: 30 }}
                         />
                       )}
 
                       <div
-                        className="w-6 h-6 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 transition-colors duration-200"
+                        className="w-6 h-6 rounded-lg flex items-center justify-center mr-3 flex-shrink-0"
                         style={{
-                          background: isHighlighted ? "rgba(59,130,246,0.18)" : "rgba(255,255,255,0.05)",
+                          background: isHigh ? "rgba(59,130,246,0.18)" : "rgba(255,255,255,0.05)",
+                          transition: "background 0.2s ease",
                         }}
                       >
                         <item.icon
-                          className="w-3 h-3 transition-colors duration-200"
-                          style={{ color: isHighlighted ? "#60A5FA" : "rgba(255,255,255,0.35)" }}
+                          className="w-3 h-3"
+                          style={{ color: isHigh ? "#60A5FA" : "rgba(255,255,255,0.32)", transition: "color 0.2s ease" }}
                         />
                       </div>
 
                       <span
-                        className="flex-1 text-[13px] transition-colors duration-200"
+                        className="flex-1 text-[13px]"
                         style={{
-                          color: isHighlighted ? "rgba(255,255,255,0.90)" : "rgba(255,255,255,0.52)",
-                          fontWeight: isHighlighted ? 500 : 400,
+                          color: isHigh ? "rgba(255,255,255,0.90)" : "rgba(255,255,255,0.48)",
+                          fontWeight: isHigh ? 500 : 400,
+                          transition: "color 0.2s ease",
                         }}
                       >
                         {item.text}
                       </span>
 
                       <span
-                        className="text-[10px] ml-2 flex-shrink-0 transition-colors duration-200"
-                        style={{ color: isHighlighted ? "rgba(96,165,250,0.65)" : "rgba(255,255,255,0.18)" }}
+                        className="text-[10px] ml-2 flex-shrink-0"
+                        style={{
+                          color: isHigh ? "rgba(96,165,250,0.60)" : "rgba(255,255,255,0.16)",
+                          transition: "color 0.2s ease",
+                        }}
                       >
                         {item.hint}
                       </span>
@@ -198,7 +272,7 @@ export default function CommandPalette() {
               {/* Footer */}
               <div
                 className="flex items-center justify-between px-4 py-2"
-                style={{ borderTop: "1px solid rgba(255,255,255,0.045)" }}
+                style={{ borderTop: "1px solid rgba(255,255,255,0.042)" }}
               >
                 <div className="flex items-center gap-3 text-[10px] text-white/18">
                   <span>↵ run</span>

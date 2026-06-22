@@ -10,6 +10,10 @@ interface NaviiContextType {
   taskState: TaskState;
   setTaskState: (state: TaskState) => void;
   triggerCommand: (command: string) => void;
+  paletteOrigin: { x: number; y: number } | null;
+  autoRunPending: boolean;
+  setAutoRunPending: (v: boolean) => void;
+  openCommandPalette: (x: number, y: number, autoRun?: boolean) => void;
 }
 
 const NaviiContext = createContext<NaviiContextType | undefined>(undefined);
@@ -18,11 +22,19 @@ export function NaviiProvider({ children }: { children: ReactNode }) {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [activeTask, setActiveTask] = useState<string | null>(null);
   const [taskState, setTaskState] = useState<TaskState>("Idle");
+  const [paletteOrigin, setPaletteOrigin] = useState<{ x: number; y: number } | null>(null);
+  const [autoRunPending, setAutoRunPending] = useState(false);
 
   const triggerCommand = (command: string) => {
     setIsCommandPaletteOpen(false);
     setActiveTask(command);
     setTaskState("Listening");
+  };
+
+  const openCommandPalette = (x: number, y: number, autoRun = false) => {
+    setPaletteOrigin({ x, y });
+    setAutoRunPending(autoRun);
+    setIsCommandPaletteOpen(true);
   };
 
   return (
@@ -35,6 +47,10 @@ export function NaviiProvider({ children }: { children: ReactNode }) {
         taskState,
         setTaskState,
         triggerCommand,
+        paletteOrigin,
+        autoRunPending,
+        setAutoRunPending,
+        openCommandPalette,
       }}
     >
       {children}

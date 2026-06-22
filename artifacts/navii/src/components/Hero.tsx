@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useNavii } from "./NaviiContext";
 
 export default function Hero() {
-  const { setIsCommandPaletteOpen } = useNavii();
+  const { openCommandPalette } = useNavii();
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-14 pb-20 px-6 overflow-hidden">
@@ -39,7 +39,7 @@ export default function Hero() {
           AI Desktop Companion · Public Beta
         </motion.div>
 
-        {/* Headline — calibrated for elegance at all sizes */}
+        {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -97,8 +97,17 @@ export default function Hero() {
           >
             Download for Mac
           </button>
+
+          {/* Live demo trigger — opens palette near the button */}
           <button
-            onClick={() => setIsCommandPaletteOpen(true)}
+            onClick={(e) => {
+              const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+              openCommandPalette(
+                rect.left + rect.width / 2,
+                rect.bottom + 12,
+                true, // autoRun = true → triggers demo sequence
+              );
+            }}
             className="rounded-full px-7 h-11 text-[14px] font-semibold text-slate-700 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all active:scale-[0.97]"
             style={{ boxShadow: "0 1px 3px rgba(15,23,42,0.06), 0 3px 10px rgba(15,23,42,0.04)" }}
           >
@@ -106,7 +115,7 @@ export default function Hero() {
           </button>
         </motion.div>
 
-        {/* Trust */}
+        {/* Trust line */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

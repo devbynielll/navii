@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import GlowCursor from "./components/GlowCursor";
 import CommandPalette from "./components/CommandPalette";
+import DemoOverlay from "./components/DemoOverlay";
 import TaskSimulation from "./components/TaskSimulation";
 import InteractionDemo from "./components/InteractionDemo";
 import FeatureCards from "./components/FeatureCards";
@@ -28,6 +29,7 @@ function Home() {
       <Hero />
       <GlowCursor />
       <CommandPalette />
+      <DemoOverlay />
       <TaskSimulation />
       <InteractionDemo />
       <FeatureCards />

@@ -1,7 +1,13 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { useNavii } from "./NaviiContext";
 
-const STEPS = [
+const STEPS: Array<{
+  n: string;
+  title: string;
+  body: string;
+  visual: React.ReactNode;
+}> = [
   {
     n: "01",
     title: "Press ⌥ Space",
@@ -113,7 +119,7 @@ const STEPS = [
 ];
 
 export default function InteractionDemo() {
-  const { setIsCommandPaletteOpen } = useNavii();
+  const { openCommandPalette } = useNavii();
 
   return (
     <section
@@ -223,7 +229,10 @@ export default function InteractionDemo() {
           className="flex justify-center mt-16"
         >
           <button
-            onClick={() => setIsCommandPaletteOpen(true)}
+            onClick={(e) => {
+              const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+              openCommandPalette(rect.left + rect.width / 2, rect.bottom + 12);
+            }}
             className="rounded-full px-8 h-11 text-[13px] font-semibold text-white transition-all active:scale-[0.97]"
             style={{
               background: "#0D0D12",
